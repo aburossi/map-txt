@@ -1,0 +1,239 @@
+/* Reset some basic styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2, h3 {
+    margin: 10px 0;
+}
+
+/* --- Mindmap Generator Styles --- */
+#mindmap-container {
+    width: 100%; /* Use full width */
+    max-width: 1000px; /* Reduced max-width for less height */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Dynamic Mindmap Title */
+#mindmap-title {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#mindmap-toolbar {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#mindmap-toolbar input[type="color"],
+#mindmap-toolbar input[type="range"],
+#mindmap-toolbar button {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#mindmap-toolbar input[type="color"] {
+    border: none;
+    background: none;
+}
+
+#mindmap-toolbar input[type="range"] {
+    width: 100px;
+}
+
+#mindmap-toolbar button {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#mindmap-toolbar button:hover {
+    background-color: #e0e0e0;
+}
+
+#mindmap-canvas-container {
+    width: 100%;
+    /* Maintain a 16:9 aspect ratio */
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#mindmap-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    touch-action: none; /* Prevent touch gestures */
+    border-radius: 4px;
+}
+
+/* --- Answers Section Styles --- */
+#answers-container {
+    width: 100%; /* Use full width */
+    max-width: 1000px; /* Reduced max-width for consistency */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.quill-editor {
+    height: 150px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.ql-toolbar.ql-snow {
+    margin-bottom: 10px;
+}
+
+.answers-button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+#answers-container button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#answers-saveBtn {
+    background-color: #008CBA; /* Blue */
+}
+
+#answers-downloadAllBtn {
+    background-color: #555555; /* Dark gray */
+}
+
+#answers-clearBtn {
+    background-color: #f44336; /* Red */
+}
+
+.info-text {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Display of saved answer */
+#savedAnswerContainer {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: none; /* Hidden by default */
+    position: relative;
+}
+
+#savedAnswerContainer h3 {
+    margin-bottom: 10px;
+}
+
+#savedAnswer {
+    white-space: pre-wrap;
+    font-size: 14px;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    background-color: #f4f4f4;
+    overflow: auto;
+    border: none;
+    border-radius: 4px;
+}
+
+#copyAnswerBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Print styles */
+@media print {
+    /* Hide everything by default */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Make printAllContent visible */
+    body.print-all #printAllContent,
+    body.print-all #printAllContent * {
+        visibility: visible;
+    }
+
+    /* Position the visible content */
+    #printAllContent {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    /* Style pre elements for readability */
+    pre {
+        white-space: pre-wrap;
+        font-size: 14px;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border: none; /* Remove borders */
+    }
+
+    /* Remove borders and padding for drafts in print */
+    #printAllContent .draft {
+        border: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    #printAllContent .draft h3 {
+        margin-bottom: 5px;
+    }
+
+    /* Hide all buttons in print */
+    button {
+        display: none;
+    }
+}
