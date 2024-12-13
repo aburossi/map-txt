@@ -99,7 +99,7 @@ h1, h2, h3 {
     height: 100%;
     border: 1px solid #ccc;
     background-color: #fff;
-    touch-action: none; /* Prevent touch gestures */
+    touch-action: none;
     border-radius: 4px;
 }
 
@@ -113,16 +113,7 @@ h1, h2, h3 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.info-text {
-    font-style: italic;
-    color: #555;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* #answers-assignmentInfo styles are now handled by the .title class */
-
-/* Quill Editor Styles */
+/* --- Quill Editor Container Styles --- */
 #answers-editor-container {
     margin-bottom: 20px;
 }
@@ -134,115 +125,57 @@ h1, h2, h3 {
     border-radius: 4px;
 }
 
-/* --- QuillJS Toolbar Container --- */
-.ql-toolbar.ql-snow {
-    display: flex;
-    flex-wrap: wrap; /* Allows buttons to wrap if space is limited */
-    align-items: center; /* Vertically centers the buttons within the toolbar */
-    padding: 5px; /* Adjust padding as needed */
-    background-color: #f3f3f3; /* Added background color */
-}
-
-/* --- Spacing Between Button Groups --- */
-.ql-toolbar .ql-formats {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* Space between buttons */
-    
-    /* Remove default margin and padding */
-    margin: 0;
-    padding: 0;
-}
-
-/* --- Adjust QuillJS Toolbar Button Sizes and Alignment --- */
-.ql-toolbar .ql-formats button {
-    /* Set consistent padding */
-    padding: 4px 8px; /* Adjust as needed */
-    
-    /* Set consistent font size */
-    font-size: 14px; /* Adjust as needed */
-    
-    /* Set a fixed height to ensure uniformity */
-    height: 32px; /* Example height */
-    
-    /* Use flex to center content vertically and horizontally */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Ensure box-sizing includes padding and border */
-    box-sizing: border-box;
-    
-    /* Set default border to prevent layout shift on hover */
-    border: 1px solid transparent;
-    
-    /* Transition for smooth hover effect */
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    
-    /* Remove default margin */
-    margin: 0;
-    
-    /* Set icon color */
-    color: #666; /* Dark gray for icons */
-}
-
-/* --- Ensure SVG Icons in Quill Toolbar Buttons Have a Visible Color --- */
-.ql-toolbar .ql-formats button svg {
-    fill: #000 !important; /* Sets icon color to black */
-    width: 16px;
-    height: 16px;
-}
-
-.ql-toolbar .ql-formats button {
-    color: #000 !important; /* Sets button icon color to black */
-}
-
-/* --- Hover State --- */
-.ql-toolbar .ql-formats button:hover {
-    background-color: #e0e0e0; /* Light hover background */
-    border-color: #b0b0b0; /* Subtle border on hover */
-}
-
-/* --- Active State --- */
-.ql-toolbar .ql-formats button.ql-active {
-    background-color: #d0d0d0; /* Slightly darker active background */
-    border-color: #a0a0a0; /* Subtle border when active */
-}
-
-/* Scoped Quill Styles (If using a unique container) */
-#quill-container .ql-toolbar .ql-formats button svg {
-    fill: #000 !important;
-    width: 16px;
-    height: 16px;
-}
-
-#quill-container .ql-toolbar .ql-formats button {
-    color: #000 !important;
-}
-
-/* --- Custom Toolbar Container --- */
+/* --- Custom Toolbar Styles --- */
 #custom-toolbar {
-    margin-bottom: 10px; /* Space between toolbar and editor */
-}
-
-/* Additional Styles to Enhance Visibility */
-#custom-toolbar .ql-formats button {
-    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #f8f8f8;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-#custom-toolbar .ql-formats button:hover {
-    background-color: #f0f0f0;
+/* Toolbar container */
+.ql-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
 }
 
-
-/* --- Active State --- */
-.ql-toolbar .ql-formats button.ql-active {
-    background-color: #d0d0d0; /* Slightly darker active background */
-    border-color: #a0a0a0; /* Subtle border when active */
+/* Format groups */
+.ql-formats {
+    display: flex;
+    gap: 5px;
+    margin: 0 !important;
 }
 
+/* Toolbar buttons */
+.ql-toolbar button {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 3px 5px;
+    margin: 2px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #444;
+}
+
+.ql-toolbar button:hover {
+    background: #f0f0f0;
+}
+
+.ql-toolbar button.ql-active {
+    background-color: #e6e6e6;
+    border-color: #999;
+}
+
+/* Button container */
 .answers-button-container {
     display: flex;
     align-items: center;
@@ -252,6 +185,7 @@ h1, h2, h3 {
     margin-bottom: 20px;
 }
 
+/* Action buttons */
 #answers-container button {
     padding: 10px 20px;
     font-size: 14px;
@@ -263,7 +197,7 @@ h1, h2, h3 {
 }
 
 #answers-saveBtn {
-    background-color: #008CBA; /* Blue */
+    background-color: #008CBA;
 }
 
 #answers-saveBtn:hover {
@@ -271,7 +205,7 @@ h1, h2, h3 {
 }
 
 #answers-downloadAllBtn {
-    background-color: #555555; /* Dark gray */
+    background-color: #555555;
 }
 
 #answers-downloadAllBtn:hover {
@@ -279,7 +213,7 @@ h1, h2, h3 {
 }
 
 #print-both-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 #print-both-btn:hover {
@@ -287,20 +221,21 @@ h1, h2, h3 {
 }
 
 #answers-clearBtn {
-    background-color: #f44336; /* Red */
+    background-color: #f44336;
 }
 
 #answers-clearBtn:hover {
     background-color: #da190b;
 }
 
+/* Saved Answer Container */
 #savedAnswerContainer {
     margin-top: 20px;
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 5px;
     background-color: #f9f9f9;
-    display: none; /* Hidden by default */
+    display: none;
     position: relative;
 }
 
@@ -313,9 +248,6 @@ h1, h2, h3 {
     white-space: pre-wrap;
     font-size: 14px;
     padding: 10px;
-    box-sizing: border-box;
-    width: 100%;
-    height: auto;
     background-color: #f4f4f4;
     overflow: auto;
     border: none;
@@ -329,7 +261,7 @@ h1, h2, h3 {
     right: 15px;
     padding: 6px 12px;
     font-size: 12px;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -341,26 +273,22 @@ h1, h2, h3 {
     background-color: #45a049;
 }
 
-/* Page break class */
+/* Print Styles */
 .print-page-break {
-    page-break-after: always; /* For older browsers */
-    break-after: page; /* For modern browsers */
+    page-break-after: always;
+    break-after: page;
 }
 
-/* Print styles */
 @media print {
-    /* Hide everything by default */
     body * {
         visibility: hidden;
     }
 
-    /* Make only printBothContent visible */
     body.print-all #printBothContent,
     body.print-all #printBothContent * {
         visibility: visible;
     }
 
-    /* Position the visible content */
     #printBothContent {
         position: absolute;
         left: 0;
@@ -369,20 +297,17 @@ h1, h2, h3 {
         padding: 20px;
     }
 
-    /* Ensure printAllContent is hidden */
     body.print-all #printAllContent,
     body.print-all #printAllContent * {
         visibility: hidden;
     }
 
-    /* Style headings for print */
     #printBothContent h1,
     #printBothContent h3 {
         text-align: center;
         color: #2c3e50;
     }
 
-    /* Style answers for print */
     #printBoth-answers .draft {
         margin-bottom: 20px;
     }
@@ -399,43 +324,29 @@ h1, h2, h3 {
         color: #333;
     }
 
-    /* Remove borders and padding for drafts in print */
     #printBothContent .draft {
         border: none;
         padding: 0;
         margin-bottom: 20px;
     }
 
-    #printBothContent .draft h3 {
-        margin-bottom: 5px;
-    }
-
-    /* Hide all buttons in print */
     button {
         display: none;
     }
 
-    /* Style pre elements for readability */
     pre {
         white-space: pre-wrap;
         font-size: 14px;
         padding: 10px;
-        box-sizing: border-box;
         width: 100%;
         height: auto;
         margin-bottom: 20px;
-        border: none; /* Remove borders */
+        border: none;
         color: #333;
-    }
-
-    /* Ensure page breaks for printBothContent */
-    #printBothContent .print-page-break {
-        page-break-after: always; /* For older browsers */
-        break-after: page; /* For modern browsers */
     }
 }
 
-/* Responsive Design Enhancements */
+/* Responsive Design */
 @media (max-width: 768px) {
     #mindmap-toolbar,
     .answers-button-container {
@@ -455,5 +366,9 @@ h1, h2, h3 {
     #copyAnswerBtn {
         top: 10px;
         right: 10px;
+    }
+
+    .ql-toolbar {
+        justify-content: center;
     }
 }
