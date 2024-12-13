@@ -62,11 +62,11 @@
         assignmentInfo.textContent = assignmentSuffix ? `Auftrag: ${assignmentSuffix}` : 'Auftrag';
     }
 
-    // Initialisiere den Quill-Editor
+    // Initialisiere den Quill-Editor mit der Standard-Toolbar
     const quill = new Quill('#answers-answerBox', {
         theme: 'snow',
         modules: {
-            toolbar: '#custom-toolbar'
+            toolbar: '#toolbar'
         }
     });
 
