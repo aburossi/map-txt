@@ -182,7 +182,42 @@ h1, h2, h3 {
 }
 */
 
-/* Button container */
+/* --- Vergrößerte Toolbar-Schaltflächen --- */
+#toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+#toolbar .ql-formats button {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    font-size: 24px;
+    border-radius: 6px;
+}
+
+#toolbar .ql-formats select {
+    height: 40px;
+    font-size: 16px;
+    padding: 8px;
+}
+
+#toolbar .ql-formats button svg {
+    width: 24px;
+    height: 24px;
+}
+
+#toolbar .ql-formats button:hover,
+#toolbar .ql-formats button.ql-active {
+    background-color: #e0e0e0;
+}
+
+/* --- Button Container --- */
 .answers-button-container {
     display: flex;
     align-items: center;
@@ -280,12 +315,7 @@ h1, h2, h3 {
     background-color: #45a049;
 }
 
-/* --- Vergrößerte Schriftgröße für Quill Toolbar Buttons --- */
-#toolbar button {
-    font-size: 20px; /* Passe die Größe nach Bedarf an */
-}
-
-/* Print Styles */
+/* --- Print Styles --- */
 .print-page-break {
     page-break-after: always;
     break-after: page;
@@ -357,6 +387,12 @@ h1, h2, h3 {
         color: #333;
     }
 }
+
+/* --- Vergrößerte Schriftgröße für Quill Toolbar Buttons --- */
+/* Entferne diese Regel, da wir bereits spezifischere Regeln für die Toolbar-Schaltflächen definiert haben */
+/* #toolbar button {
+    font-size: 20px; /* Passe die Größe nach Bedarf an */
+/* } */
 
 /* Responsive Design */
 @media (max-width: 768px) {
