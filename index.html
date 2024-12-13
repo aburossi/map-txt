@@ -59,6 +59,7 @@
         <div class="answers-button-container">
             <button id="answers-saveBtn">Antwort zwischenspeichern</button>
             <button id="answers-downloadAllBtn">Alle Antworten drucken / Als PDF speichern</button>
+            <button id="print-both-btn">Mindmap und Antworten drucken</button> <!-- New Button -->
         </div>
 
         <!-- Display of saved answer -->
@@ -71,6 +72,17 @@
         <!-- Red delete button, moved under savedAnswerContainer -->
         <div class="answers-button-container" style="margin-top: 10px;">
             <button id="answers-clearBtn">Alle Antworten löschen</button>
+        </div>
+
+        <!-- Section for combined printing -->
+        <div id="printBothContent" style="display: none;">
+            <h1 id="printBoth-mindmap-title"></h1>
+            <div id="printBoth-mindmap-image"></div>
+            <div class="print-page-break"></div> <!-- Page break -->
+            <h3>Deine Antworten:</h3>
+            <div id="printBoth-answers">
+                <!-- Dynamically populated answers will appear here -->
+            </div>
         </div>
     </div>
 
