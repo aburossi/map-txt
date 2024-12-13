@@ -137,6 +137,10 @@ h1, h2, h3 {
     background-color: #555555; /* Dark gray */
 }
 
+#print-both-btn {
+    background-color: #4CAF50; /* Green */
+}
+
 #answers-clearBtn {
     background-color: #f44336; /* Red */
 }
@@ -201,8 +205,15 @@ h1, h2, h3 {
         visibility: visible;
     }
 
+    /* Make printBothContent visible */
+    body.print-all #printBothContent,
+    body.print-all #printBothContent * {
+        visibility: visible;
+    }
+
     /* Position the visible content */
-    #printAllContent {
+    #printAllContent,
+    #printBothContent {
         position: absolute;
         left: 0;
         top: 0;
@@ -222,18 +233,26 @@ h1, h2, h3 {
     }
 
     /* Remove borders and padding for drafts in print */
-    #printAllContent .draft {
+    #printAllContent .draft,
+    #printBothContent .draft {
         border: none;
         padding: 0;
         margin-bottom: 20px;
     }
 
-    #printAllContent .draft h3 {
+    #printAllContent .draft h3,
+    #printBothContent .draft h3 {
         margin-bottom: 5px;
     }
 
     /* Hide all buttons in print */
     button {
         display: none;
+    }
+
+    /* Ensure page breaks for printBothContent */
+    #printBothContent .print-page-break {
+        page-break-after: always; /* For older browsers */
+        break-after: page; /* For modern browsers */
     }
 }
