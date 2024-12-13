@@ -65,15 +65,11 @@
     // Initialisiere den Quill-Editor
     const quill = new Quill('#answers-answerBox', {
         theme: 'snow',
-        placeholder: 'Gib hier deine Antworten ein...',
         modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline'],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['clean']
-            ]
+            toolbar: '#custom-toolbar'
         }
     });
+
 
     // Anzeigeelemente
     const savedAnswerContainer = document.getElementById('savedAnswerContainer');
