@@ -13,7 +13,7 @@
 <body>
     <!-- --- Mindmap Generator Section --- -->
     <div id="mindmap-container">
-        <h1 id="mindmap-title" class="title">Mindmap Generator</h1> <!-- Added class="title" -->
+        <h1 id="mindmap-title" class="title">Mindmap Generator</h1>
         <div id="mindmap-toolbar">
             <label for="mindmap-colorPicker" title="Choose Color">
                 <input type="color" id="mindmap-colorPicker" value="#000000">
@@ -25,7 +25,7 @@
             <button id="mindmap-printBtn">Print Mindmap</button>
         </div>
         <div id="mindmap-canvas-container">
-            <canvas id="mindmap-canvas"></canvas> <!-- Responsive Canvas -->
+            <canvas id="mindmap-canvas"></canvas>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
     <div id="answers-container">
         <!-- Section for printing both Mindmap and Answers -->
         <div id="printAllContent" style="display: none;">
-            <h1 id="printAll-mindmap-title" class="title"></h1> <!-- Added class="title" -->
+            <h1 id="printAll-mindmap-title" class="title"></h1>
             <div id="printAll-mindmap-image"></div>
             <h3>Deine Antworten:</h3>
             <div id="printAll-answers">
@@ -42,27 +42,28 @@
         </div>
 
         <!-- Assignment Information -->
-        <p id="answers-assignmentInfo" class="title"></p> <!-- Added class="title" -->
+        <p id="answers-assignmentInfo" class="title"></p>
 
-        <!-- Quill Editor (Moved to visible section) -->
+        <!-- Custom Quill Toolbar -->
+        <div id="custom-toolbar">
+            <span class="ql-formats">
+                <button class="ql-bold" title="Bold"><strong>B</strong></button>
+                <button class="ql-italic" title="Italic"><em>I</em></button>
+                <button class="ql-underline" title="Underline"><u>U</u></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-list" value="ordered" title="Ordered List">&#35;</button>
+                <button class="ql-list" value="bullet" title="Bullet List">&#8226;</button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-clean" title="Remove Formatting">Clear</button>
+            </span>
+        </div>
+
+        <!-- Quill Editor -->
         <div id="answers-editor-container">
             <h3>Deine Antworten:</h3>
             <div id="answers-answerBox" class="quill-editor">
-                <!-- Quill Toolbar -->
-                <div class="ql-toolbar ql-snow">
-                    <span class="ql-formats">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-clean"></button>
-                    </span>
-                </div>
                 <div class="ql-editor"></div>
             </div>
         </div>
@@ -71,7 +72,7 @@
         <div class="answers-button-container">
             <button id="answers-saveBtn">Antwort zwischenspeichern</button>
             <button id="answers-downloadAllBtn">Alle Antworten drucken / Als PDF speichern</button>
-            <button id="print-both-btn">Mindmap und Antworten drucken</button> <!-- New Button -->
+            <button id="print-both-btn">Mindmap und Antworten drucken</button>
         </div>
 
         <!-- Display of saved answer -->
@@ -88,9 +89,9 @@
 
         <!-- Section for combined printing -->
         <div id="printBothContent" style="display: none;">
-            <h1 id="printBoth-mindmap-title" class="title"></h1> <!-- Added class="title" -->
+            <h1 id="printBoth-mindmap-title" class="title"></h1>
             <div id="printBoth-mindmap-image"></div>
-            <div class="print-page-break"></div> <!-- Page break -->
+            <div class="print-page-break"></div>
             <h3>Deine Antworten:</h3>
             <div id="printBoth-answers">
                 <!-- Dynamically populated answers will appear here -->
