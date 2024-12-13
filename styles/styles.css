@@ -190,7 +190,12 @@ h1, h2, h3 {
 .ql-toolbar .ql-formats button svg {
     width: 16px;  /* Adjusted size */
     height: 16px; /* Adjusted size */
-    fill: currentColor; /* Inherits the button's text color */
+    fill: #000; /* Inherits the button's text color */
+}
+
+/* Optionally, set the button color to ensure contrast */
+.ql-toolbar .ql-formats button {
+    color: #000 !important; /* Sets button icon color to black */
 }
 
 /* --- Hover State --- */
