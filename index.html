@@ -13,7 +13,7 @@
 <body>
     <!-- --- Mindmap Generator Section --- -->
     <div id="mindmap-container">
-        <h1 id="mindmap-title">Mindmap Generator</h1> <!-- Dynamic Title Placeholder -->
+        <h1 id="mindmap-title" class="title">Mindmap Generator</h1> <!-- Added class="title" -->
         <div id="mindmap-toolbar">
             <label for="mindmap-colorPicker" title="Choose Color">
                 <input type="color" id="mindmap-colorPicker" value="#000000">
@@ -31,11 +31,9 @@
 
     <!-- --- Answers Section --- -->
     <div id="answers-container">
-    <!-- Assignment Information -->
-    <p id="answers-assignmentInfo" class="title"></p> <!-- Added class="title" -->      
         <!-- Section for printing both Mindmap and Answers -->
         <div id="printAllContent" style="display: none;">
-            <h1 id="printAll-mindmap-title"></h1>
+            <h1 id="printAll-mindmap-title" class="title"></h1> <!-- Added class="title" -->
             <div id="printAll-mindmap-image"></div>
             <h3>Deine Antworten:</h3>
             <div id="printAll-answers">
@@ -43,8 +41,13 @@
             </div>
         </div>
 
+        <!-- Italic informational text -->
+        <p class="info-text">
+            Alle Antworten können am Ende dieser Seite heruntergeladen werden.
+        </p>
+
         <!-- Assignment Information -->
-        <p id="answers-assignmentInfo"></p>
+        <p id="answers-assignmentInfo" class="title"></p> <!-- Added class="title" -->
 
         <!-- Quill Editor (Moved to visible section) -->
         <div id="answers-editor-container">
@@ -73,7 +76,7 @@
 
         <!-- Section for combined printing -->
         <div id="printBothContent" style="display: none;">
-            <h1 id="printBoth-mindmap-title"></h1>
+            <h1 id="printBoth-mindmap-title" class="title"></h1> <!-- Added class="title" -->
             <div id="printBoth-mindmap-image"></div>
             <div class="print-page-break"></div> <!-- Page break -->
             <h3>Deine Antworten:</h3>
