@@ -71,7 +71,7 @@
     const assignmentSuffix = assignmentId.replace(/^assignment[_-]?/, '');
 
     // Set the dynamic title for the Mindmap
-    mindmapTitle.textContent = assignmentSuffix ? `Mindmap: Auftrag ${assignmentSuffix}` : 'Mindmap Generator';
+    mindmapTitle.textContent = assignmentSuffix ? `Mindmap: ${assignmentSuffix}` : 'Mindmap Generator';
 
     // Initialize canvas size
     function setupCanvas() {
