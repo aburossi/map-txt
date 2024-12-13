@@ -118,6 +118,9 @@
         localStorage.setItem('mindmap', dataURL);
     }
 
+    // Exponieren der saveCanvas Funktion
+    window.saveMindmap = saveCanvas;
+
     // Update stroke color when color picker changes
     colorPicker.addEventListener('change', (e) => {
         currentColor = e.target.value;
@@ -166,7 +169,7 @@
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
 
-    // Touch Events for mobile devices
+    // Touch Events für mobile Geräte
     canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const touch = e.touches[0];
@@ -188,7 +191,7 @@
     canvas.addEventListener('touchend', stopDrawing);
     canvas.addEventListener('touchcancel', stopDrawing);
 
-    // Clear Canvas and localStorage
+    // Clear Canvas und localStorage
     clearBtn.addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         localStorage.removeItem('mindmap');
