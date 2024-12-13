@@ -192,6 +192,12 @@ h1, h2, h3 {
     cursor: pointer;
 }
 
+/* Page break class */
+.print-page-break {
+    page-break-after: always; /* For older browsers */
+    break-after: page; /* For modern browsers */
+}
+
 /* Print styles */
 @media print {
     /* Hide everything by default */
