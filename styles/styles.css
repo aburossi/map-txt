@@ -162,17 +162,17 @@ h1, h2, h3 {
 /* --- Adjust QuillJS Toolbar Button Sizes --- */
 .ql-toolbar .ql-formats button {
     /* Increase padding for larger clickable area */
-    padding: 8px 12px;
+    padding: 4px 8px;
     
     /* Increase font size for better visibility */
-    font-size: 16px;
+    font-size: 14px;
     
     /* Optional: Adjust icon size if necessary */
 }
 
 .ql-toolbar .ql-formats button svg {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 }
 
 /* Optional: Adjust hover effects to match new size */
