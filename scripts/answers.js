@@ -1,16 +1,16 @@
 /* --- Answers Section Script --- */
 (function() {
-    // Function to retrieve a query parameter by name
+    // Funktion zum Abrufen eines URL-Parameters
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
-    // Function to extract the page title from the referrer URL
+    // Funktion zum Extrahieren des Seitentitels aus der Referrer-URL
     function getParentPageTitle() {
         const referrer = document.referrer;
         if (!referrer) {
-            console.warn('No referrer found. Cannot retrieve parent page title.');
+            console.warn('Kein Referrer gefunden. Elternseitentitel kann nicht abgerufen werden.');
             return '';
         }
 
@@ -18,34 +18,34 @@
             const url = new URL(referrer);
             const pathSegments = url.pathname.split('/').filter(segment => segment.length > 0);
 
-            // Find the index of 'allgemeinbildung'
+            // Finde den Index von 'allgemeinbildung'
             const targetSegment = 'allgemeinbildung';
             const targetIndex = pathSegments.indexOf(targetSegment);
 
             if (targetIndex === -1) {
-                console.warn(`Segment '${targetSegment}' not found in referrer URL path.`);
+                console.warn(`Segment '${targetSegment}' wurde im Pfad der Referrer-URL nicht gefunden.`);
                 return '';
             }
 
-            // Extract all segments after 'allgemeinbildung'
+            // Extrahiere alle Segmente nach 'allgemeinbildung'
             const relevantSegments = pathSegments.slice(targetIndex + 1);
 
             if (relevantSegments.length === 0) {
-                console.warn('No path segments found after the target segment.');
+                console.warn('Keine Pfadsegmente nach dem Zielsegment gefunden.');
                 return '';
             }
 
-            // Replace '+', '-', '_' with spaces and decode URI components
+            // Ersetze '+', '-', '_' durch Leerzeichen und dekodiere URI-Komponenten
             const formattedSegments = relevantSegments.map(segment => {
                 return decodeURIComponent(segment.replace(/[-_+]/g, ' ')).replace(/\b\w/g, char => char.toUpperCase());
             });
 
-            // Join the segments with ' - ' as a separator
+            // Verbinde die Segmente mit ' - ' als Trennzeichen
             const formattedTitle = formattedSegments.join(' - ');
 
             return formattedTitle;
         } catch (e) {
-            console.error('Error parsing referrer URL:', e);
+            console.error('Fehler beim Parsen der Referrer-URL:', e);
             return '';
         }
     }
@@ -54,15 +54,15 @@
     const parentTitle = getParentPageTitle();
     const assignmentInfo = document.getElementById('answers-assignmentInfo');
 
-    // Remove the 'assignment' prefix to get the suffix
+    // Entferne das Präfix 'assignment', um das Suffix zu erhalten
     const assignmentSuffix = assignmentId.replace(/^assignment[_-]?/, '');
 
-    // Set the text to 'Auftrag: {Suffix}' if the element exists
+    // Setze den Text auf 'Auftrag: {Suffix}', falls vorhanden
     if (assignmentInfo) {
         assignmentInfo.textContent = assignmentSuffix ? `Auftrag: ${assignmentSuffix}` : 'Auftrag';
     }
 
-    // Initialize Quill editor
+    // Initialisiere den Quill-Editor
     const quill = new Quill('#answers-answerBox', {
         theme: 'snow',
         placeholder: 'Gib hier deine Antworten ein...',
@@ -75,25 +75,25 @@
         }
     });
 
-    // Display elements
+    // Anzeigeelemente
     const savedAnswerContainer = document.getElementById('savedAnswerContainer');
     const savedAssignmentTitle = document.getElementById('answers-savedAssignmentTitle');
     const savedAnswer = document.getElementById('answers-savedAnswer');
     const copyAnswerBtn = document.getElementById('answers-copyAnswerBtn');
 
-    // Load saved content and set it in Quill
+    // Lade gespeicherten Inhalt und setze ihn im Quill-Editor
     const savedText = localStorage.getItem(assignmentId);
     if (savedText) {
         quill.root.innerHTML = savedText;
-        console.log(`Loaded saved text for ${assignmentId}`);
+        console.log(`Gespeicherter Text für ${assignmentId} geladen.`);
         displaySavedAnswer(savedText);
     } else {
-        console.log(`No saved text found for ${assignmentId}`);
+        console.log(`Kein gespeicherter Text für ${assignmentId} gefunden.`);
     }
 
-    // Function to display the saved answer
+    // Funktion zur Anzeige der gespeicherten Antwort
     function displaySavedAnswer(content) {
-        // Combine parentTitle and assignmentSuffix, if available
+        // Kombiniere parentTitle und assignmentSuffix, falls vorhanden
         const titleText = parentTitle
             ? `${parentTitle}\nAuftrag: ${assignmentSuffix}`
             : `Auftrag: ${assignmentSuffix}`;
@@ -102,9 +102,9 @@
         savedAnswerContainer.style.display = 'block';
     }
 
-    // Function to copy the answer to the clipboard
+    // Funktion zum Kopieren der Antwort in die Zwischenablage
     copyAnswerBtn.addEventListener('click', function() {
-        // To ensure plain text is copied, strip HTML tags
+        // Um sicherzustellen, dass nur reiner Text kopiert wird, entferne HTML-Tags
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = quill.root.innerHTML;
         const plainText = tempDiv.textContent || tempDiv.innerText || '';
@@ -115,27 +115,27 @@
         copyTextToClipboard(textToCopy);
     });
 
-    // Function to copy text to the clipboard
+    // Funktion zum Kopieren von Text in die Zwischenablage
     function copyTextToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(function() {
-                // Confirmation removed
-                console.log("Antwort erfolgreich kopiert");
+                // Bestätigung entfernt
+                console.log("Antwort erfolgreich kopiert.");
             }, function(err) {
-                console.error('Fehler beim Kopieren der Antwort: ', err);
+                console.error('Fehler beim Kopieren der Antwort:', err);
                 fallbackCopyTextToClipboard(text);
             });
         } else {
-            // Fallback to execCommand
+            // Fallback zu execCommand
             fallbackCopyTextToClipboard(text);
         }
     }
 
-    // Fallback function to copy text to the clipboard
+    // Fallback-Funktion zum Kopieren von Text in die Zwischenablage
     function fallbackCopyTextToClipboard(text) {
         const textarea = document.createElement("textarea");
         textarea.value = text;
-        // Hide the textarea element
+        // Verstecke das Textarea-Element
         textarea.style.position = "fixed";
         textarea.style.top = "-9999px";
         document.body.appendChild(textarea);
@@ -145,65 +145,68 @@
         try {
             const successful = document.execCommand('copy');
             if (successful) {
-                // Confirmation removed
-                console.log("Antwort erfolgreich kopiert (Fallback)");
+                // Bestätigung entfernt
+                console.log("Antwort erfolgreich kopiert (Fallback).");
             } else {
-                throw new Error("Fallback copy unsuccessful");
+                throw new Error("Fallback-Kopieren fehlgeschlagen.");
             }
         } catch (err) {
-            console.error('Fehler beim Kopieren der Antwort (Fallback): ', err);
-            // Confirmation removed
+            console.error('Fehler beim Kopieren der Antwort (Fallback):', err);
+            // Bestätigung entfernt
         }
 
         document.body.removeChild(textarea);
     }
 
-    // Function to save the answer to localStorage
+    // Funktion zum Speichern der Antwort in localStorage
     function saveToLocal() {
         const htmlContent = quill.root.innerHTML;
         const textContent = quill.getText().trim();
         if (textContent === "") {
-            // Confirmation removed
-            console.log("Versuch, mit leerem Textfeld zu speichern");
+            // Bestätigung entfernt
+            console.log("Versuch, mit leerem Textfeld zu speichern.");
             return;
         }
         localStorage.setItem(assignmentId, htmlContent);
-        // Confirmation removed
-        console.log(`Text für ${assignmentId} gespeichert`);
-        displaySavedAnswer(htmlContent); // Update the display of the saved answer
+        // Bestätigung entfernt
+        console.log(`Text für ${assignmentId} gespeichert.`);
+        displaySavedAnswer(htmlContent); // Aktualisiere die Anzeige der gespeicherten Antwort
     }
 
-    // Function to clear all saved answers from localStorage
+    // Exponieren der saveToLocal Funktion, um sie global zugänglich zu machen
+    window.saveAnswers = saveToLocal;
+
+    // Funktion zum Löschen aller gespeicherten Antworten aus localStorage
     function clearLocalStorage() {
-        // Confirmation removed
+        // Bestätigung entfernt
         localStorage.clear();
-        quill.setText(''); // Clear Quill editor
+        quill.setText(''); // Lösche den Quill-Editor
         savedAnswerContainer.style.display = 'none';
-        console.log("Alle gespeicherten Antworten wurden gelöscht");
+        console.log("Alle gespeicherten Antworten wurden gelöscht.");
     }
 
-    // Event Listener for the "Print All Answers / Save as PDF" button
+    // Event Listener für die "Alle Antworten drucken / Als PDF speichern" Schaltfläche
     document.getElementById("answers-downloadAllBtn").addEventListener('click', function() {
         const storageKeys = Object.keys(localStorage).filter(key => key.startsWith('assignment'));
 
         console.log(`Gefundene gespeicherte Aufträge zum Drucken: ${storageKeys.length}`);
         if(storageKeys.length === 0) {
-            console.log("Versuch, alle Antworten zu drucken, aber keine sind gespeichert");
+            console.log("Versuch, alle Antworten zu drucken, aber keine sind gespeichert.");
             return;
         }
 
-        console.log("Starte das Drucken aller Antworten");
+        console.log("Starte das Drucken aller Antworten.");
 
-        // Create a temporary div for printing all answers along with the Mindmap
+        // Erstelle ein temporäres Div für das Drucken aller Antworten zusammen mit der Mindmap
         const printAllContent = document.getElementById('printAllContent');
 
-        // Set Mindmap Title
+        // Setze den Mindmap-Titel
         const printAllMindmapTitle = document.getElementById('printAll-mindmap-title');
         printAllMindmapTitle.textContent = document.getElementById('mindmap-title').textContent;
 
-        // Convert the canvas to an image and append it
+        // Konvertiere die Canvas zu einem Bild und füge es hinzu
         const mindmapImageContainer = document.getElementById('printAll-mindmap-image');
-        mindmapImageContainer.innerHTML = ''; // Clear previous image if any
+        mindmapImageContainer.innerHTML = ''; // Vorheriges Bild löschen
 
         const canvas = document.getElementById('mindmap-canvas');
 
@@ -217,11 +220,11 @@
             };
             mindmapImageContainer.appendChild(img);
 
-            // Populate Answers
+            // Fülle die Antworten
             const answersContainer = document.getElementById('printAll-answers');
-            answersContainer.innerHTML = ''; // Clear previous content
+            answersContainer.innerHTML = ''; // Vorherigen Inhalt löschen
 
-            // Sort the storageKeys based on the numerical component or suffix
+            // Sortiere die storageKeys basierend auf dem numerischen Teil oder Suffix
             storageKeys.sort((a, b) => {
                 const suffixA = a.replace(/^assignment[_-]?/, '');
                 const suffixB = b.replace(/^assignment[_-]?/, '');
@@ -240,72 +243,77 @@
                     draftDiv.appendChild(title);
                     
                     const answerDiv = document.createElement("div");
-                    answerDiv.innerHTML = text; // Render HTML content
+                    answerDiv.innerHTML = text; // Rendere HTML-Inhalt
                     draftDiv.appendChild(answerDiv);
                     
                     answersContainer.appendChild(draftDiv);
                 }
             });
 
-            // Show the printAllContent
+            // Zeige den printAllContent Bereich an
             printAllContent.style.display = 'block';
 
-            // Add 'print-all' class to body
+            // Füge die 'print-all' Klasse hinzu, um die Druckstile zu aktivieren
             document.body.classList.add('print-all');
 
             window.print();
 
-            // Remove 'print-all' class and hide printAllContent after printing
+            // Entferne die 'print-all' Klasse und verstecke printAllContent nach dem Drucken
             window.onafterprint = function() {
                 document.body.classList.remove('print-all');
                 printAllContent.style.display = 'none';
-                // Revoke all object URLs if any
+                // Revoking der Object URLs, falls vorhanden
                 const images = printAllContent.querySelectorAll('img');
                 images.forEach(img => URL.revokeObjectURL(img.src));
             };
         }, 'image/png');
     });
 
-    // Event Listener for the "Save Answer" button
+    // Event Listener für die "Antwort zwischenspeichern" Schaltfläche
     document.getElementById("answers-saveBtn").addEventListener('click', saveToLocal);
 
-    // Event Listener for the "Clear All Answers" button
+    // Event Listener für die "Alle Antworten löschen" Schaltfläche
     document.getElementById("answers-clearBtn").addEventListener('click', clearLocalStorage);
 
-    // Optional: Log the initial state of localStorage for debugging
-    console.log("Initial state of localStorage:");
+    // Optional: Logge den anfänglichen Zustand von localStorage für Debugging-Zwecke
+    console.log("Anfänglicher Zustand von localStorage:");
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         console.log(`${key}: ${localStorage.getItem(key)}`);
     }
 
-    // **New Code to Prevent Pasting Content**
+    // **Neuer Code zum Verhindern des Einfügens von Inhalten**
 
-    // Prevent pasting into Quill editor beyond basic formatting
+    // Verhindere das Einfügen in den Quill-Editor über erweiterte Formatierungen
     quill.clipboard.addMatcher(Node.ELEMENT_NODE, function(node, delta) {
-        // Customize as needed, e.g., strip unwanted formats
+        // Passe nach Bedarf an, z.B. entferne unerwünschte Formate
         return delta;
     });
 
     quill.root.addEventListener('paste', function(e) {
         e.preventDefault();
         alert('Das Einfügen von Inhalten ist nicht erlaubt.');
-        // Optionally, allow plain text pasting without formatting
+        // Optional: Erlaube das Einfügen von nur reinem Text ohne Formatierungen
         const text = e.clipboardData.getData('text/plain');
-        quill.insertText(quill.getSelection().index, text);
+        const range = quill.getSelection();
+        if (range) {
+            quill.insertText(range.index, text);
+        } else {
+            quill.insertText(0, text);
+        }
     });
 
-    // Prevent drag-and-drop into Quill editor
+    // Verhindere Drag-and-Drop in den Quill-Editor
     quill.root.addEventListener('drop', function(e) {
         e.preventDefault();
     });
 
-    // Prevent context menu in Quill editor
+    // Verhindere das Kontextmenü im Quill-Editor
     quill.root.addEventListener('contextmenu', function(e) {
         e.preventDefault();
     });
 
-    // Additionally, prevent Ctrl+V and Cmd+V
+    // Verhindere zusätzlich Ctrl+V und Cmd+V
     quill.root.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
             e.preventDefault();
@@ -313,7 +321,7 @@
         }
     });
 
-    // Event Listener for the "Print Both" button
+    // Event Listener für die "Mindmap und Antworten drucken" Schaltfläche
     document.getElementById("print-both-btn").addEventListener('click', function() {
         const printBothContent = document.getElementById('printBothContent');
         const mindmapTitle = document.getElementById('mindmap-title').textContent;
@@ -321,55 +329,90 @@
         const printBothMindmapImage = document.getElementById('printBoth-mindmap-image');
         const printBothAnswers = document.getElementById('printBoth-answers');
 
-        // Set the mindmap title
+        // Speichere zuerst beide Inhalte
+        if (typeof window.saveMindmap === 'function') {
+            window.saveMindmap();
+            console.log("Mindmap zwischengespeichert.");
+        } else {
+            console.error("saveMindmap Funktion nicht gefunden.");
+            return;
+        }
+
+        if (typeof window.saveAnswers === 'function') {
+            window.saveAnswers();
+            console.log("Antworten zwischengespeichert.");
+        } else {
+            console.error("saveAnswers Funktion nicht gefunden.");
+            return;
+        }
+
+        // Setze den Mindmap-Titel
         printBothMindmapTitle.textContent = mindmapTitle;
 
-        // Get the mindmap canvas as image
+        // Holen Sie sich die Mindmap als Bild
         const canvas = document.getElementById('mindmap-canvas');
         canvas.toBlob(function(blob) {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(blob);
             img.style.width = '100%';
             img.style.height = 'auto';
+            
+            // Sobald das Bild geladen ist, starte den Druck
             img.onload = function() {
                 URL.revokeObjectURL(img.src);
+                window.print();
             };
-            printBothMindmapImage.innerHTML = ''; // Clear previous image
+            
+            // Füge das Bild zur Druckvorlage hinzu
+            printBothMindmapImage.innerHTML = ''; // Vorheriges Bild löschen
             printBothMindmapImage.appendChild(img);
 
-            // Get the saved answers (assuming they are in savedAnswerContainer)
+            // Fülle die Antworten aus
             const savedAssignmentTitle = document.getElementById('answers-savedAssignmentTitle').textContent;
             const savedAnswerHTML = document.getElementById('answers-savedAnswer').innerHTML;
 
-            // Populate the printBothAnswers div
+            // Fülle das printBothAnswers Div
             printBothAnswers.innerHTML = `
                 <h3>${savedAssignmentTitle}</h3>
                 ${savedAnswerHTML}
             `;
 
-            // Show the printBothContent
+            // Zeige den Druckbereich an
             printBothContent.style.display = 'block';
 
-            // Add 'print-all' class to body to trigger print CSS
+            // Verstecke andere Druckbereiche, falls vorhanden
+            const printAllContent = document.getElementById('printAllContent');
+            if (printAllContent) {
+                printAllContent.style.display = 'none';
+            }
+
+            // Füge die 'print-all' Klasse hinzu, um die Druckstile zu aktivieren
             document.body.classList.add('print-all');
 
-            // Define the afterprint handler
+            // Definiere den afterprint Handler
             function afterPrintHandler() {
-                // Remove 'print-all' class from body
+                // Entferne die 'print-all' Klasse
                 document.body.classList.remove('print-all');
 
-                // Hide the printBothContent
+                // Verstecke den Druckbereich
                 printBothContent.style.display = 'none';
 
-                // Remove the event listener
+                // Entferne den afterprint Handler
                 window.removeEventListener('afterprint', afterPrintHandler);
             }
 
-            // Add the event listener
+            // Füge den afterprint Event Listener hinzu
             window.addEventListener('afterprint', afterPrintHandler);
 
-            // Trigger print
-            window.print();
+            // Der Druck wird erst gestartet, wenn das Bild geladen ist (im img.onload)
         }, 'image/png');
     });
+
+    // Optional: Logge den anfänglichen Zustand von localStorage für Debugging-Zwecke
+    console.log("Anfänglicher Zustand von localStorage:");
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        console.log(`${key}: ${localStorage.getItem(key)}`);
+    }
+
 })();
