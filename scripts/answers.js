@@ -312,6 +312,7 @@
             alert('Das Einfügen von Inhalten ist nicht erlaubt.');
         }
     });
+
     // Event Listener for the "Print Both" button
     document.getElementById("print-both-btn").addEventListener('click', function() {
         const printBothContent = document.getElementById('printBothContent');
@@ -352,16 +353,23 @@
             // Add 'print-all' class to body to trigger print CSS
             document.body.classList.add('print-all');
 
+            // Define the afterprint handler
+            function afterPrintHandler() {
+                // Remove 'print-all' class from body
+                document.body.classList.remove('print-all');
+
+                // Hide the printBothContent
+                printBothContent.style.display = 'none';
+
+                // Remove the event listener
+                window.removeEventListener('afterprint', afterPrintHandler);
+            }
+
+            // Add the event listener
+            window.addEventListener('afterprint', afterPrintHandler);
+
             // Trigger print
             window.print();
-
-            // After printing, clean up
-            window.onafterprint = function() {
-                document.body.classList.remove('print-all');
-                printBothContent.style.display = 'none';
-                // Revoke the object URL
-                URL.revokeObjectURL(img.src);
-            };
         }, 'image/png');
     });
 })();
