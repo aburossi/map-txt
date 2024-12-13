@@ -280,6 +280,11 @@ h1, h2, h3 {
     background-color: #45a049;
 }
 
+/* --- Vergrößerte Schriftgröße für Quill Toolbar Buttons --- */
+#toolbar button {
+    font-size: 16px; /* Passe die Größe nach Bedarf an */
+}
+
 /* Print Styles */
 .print-page-break {
     page-break-after: always;
