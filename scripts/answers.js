@@ -312,4 +312,56 @@
             alert('Das Einfügen von Inhalten ist nicht erlaubt.');
         }
     });
+    // Event Listener for the "Print Both" button
+    document.getElementById("print-both-btn").addEventListener('click', function() {
+        const printBothContent = document.getElementById('printBothContent');
+        const mindmapTitle = document.getElementById('mindmap-title').textContent;
+        const printBothMindmapTitle = document.getElementById('printBoth-mindmap-title');
+        const printBothMindmapImage = document.getElementById('printBoth-mindmap-image');
+        const printBothAnswers = document.getElementById('printBoth-answers');
+
+        // Set the mindmap title
+        printBothMindmapTitle.textContent = mindmapTitle;
+
+        // Get the mindmap canvas as image
+        const canvas = document.getElementById('mindmap-canvas');
+        canvas.toBlob(function(blob) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(blob);
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.onload = function() {
+                URL.revokeObjectURL(img.src);
+            };
+            printBothMindmapImage.innerHTML = ''; // Clear previous image
+            printBothMindmapImage.appendChild(img);
+
+            // Get the saved answers (assuming they are in savedAnswerContainer)
+            const savedAssignmentTitle = document.getElementById('answers-savedAssignmentTitle').textContent;
+            const savedAnswerHTML = document.getElementById('answers-savedAnswer').innerHTML;
+
+            // Populate the printBothAnswers div
+            printBothAnswers.innerHTML = `
+                <h3>${savedAssignmentTitle}</h3>
+                ${savedAnswerHTML}
+            `;
+
+            // Show the printBothContent
+            printBothContent.style.display = 'block';
+
+            // Add 'print-all' class to body to trigger print CSS
+            document.body.classList.add('print-all');
+
+            // Trigger print
+            window.print();
+
+            // After printing, clean up
+            window.onafterprint = function() {
+                document.body.classList.remove('print-all');
+                printBothContent.style.display = 'none';
+                // Revoke the object URL
+                URL.revokeObjectURL(img.src);
+            };
+        }, 'image/png');
+    });
 })();
