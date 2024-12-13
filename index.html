@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Mindmap & Antworten Manager</title>
+    
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <!-- --- Mindmap Generator Section --- -->
+    <div id="mindmap-container">
+        <h1 id="mindmap-title">Mindmap Generator</h1> <!-- Dynamic Title Placeholder -->
+        <div id="mindmap-toolbar">
+            <label for="mindmap-colorPicker" title="Choose Color">
+                <input type="color" id="mindmap-colorPicker" value="#000000">
+            </label>
+            <label for="mindmap-lineWidth" title="Line Width">
+                <input type="range" id="mindmap-lineWidth" min="1" max="10" value="2">
+            </label>
+            <button id="mindmap-clearBtn">Clear Canvas</button>
+            <button id="mindmap-printBtn">Print Mindmap</button>
+        </div>
+        <div id="mindmap-canvas-container">
+            <canvas id="mindmap-canvas"></canvas> <!-- Responsive Canvas -->
+        </div>
+    </div>
+
+    <!-- --- Answers Section --- -->
+    <div id="answers-container">
+        <!-- Section for printing both Mindmap and Answers -->
+        <div id="printAllContent" style="display: none;">
+            <h1 id="printAll-mindmap-title"></h1>
+            <div id="printAll-mindmap-image"></div>
+            <h3>Deine Antworten:</h3>
+            <div id="printAll-answers">
+                <!-- Dynamically populated answers will appear here -->
+            </div>
+        </div>
+
+        <!-- Italic informational text -->
+        <p class="info-text">
+            Alle Antworten können am Ende dieser Seite heruntergeladen werden.
+        </p>
+
+        <!-- Assignment Information -->
+        <p id="answers-assignmentInfo"></p>
+
+        <!-- Quill Editor (Moved to visible section) -->
+        <div id="answers-editor-container">
+            <h3>Gib deine Antworten ein:</h3>
+            <div id="answers-answerBox" class="quill-editor"></div>
+        </div>
+
+        <!-- Button Container -->
+        <div class="answers-button-container">
+            <button id="answers-saveBtn">Antwort zwischenspeichern</button>
+            <button id="answers-downloadAllBtn">Alle Antworten drucken / Als PDF speichern</button>
+        </div>
+
+        <!-- Display of saved answer -->
+        <div id="savedAnswerContainer">
+            <button id="answers-copyAnswerBtn">Antwort kopieren</button>
+            <h3 id="answers-savedAssignmentTitle"></h3>
+            <div id="answers-savedAnswer"></div>
+        </div>
+
+        <!-- Red delete button, moved under savedAnswerContainer -->
+        <div class="answers-button-container" style="margin-top: 10px;">
+            <button id="answers-clearBtn">Alle Antworten löschen</button>
+        </div>
+    </div>
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <!-- External JavaScript Files -->
+    <script src="scripts/mindmap.js"></script>
+    <script src="scripts/answers.js"></script>
+</body>
+</html>
