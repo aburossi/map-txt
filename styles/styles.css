@@ -152,38 +152,65 @@ h1, h2, h3 {
     border-radius: 4px;
 }
 
+/* --- QuillJS Toolbar Container --- */
 .ql-toolbar.ql-snow {
-    border: none;
-    border-bottom: 1px solid #ccc;
-    border-radius: 4px 4px 0 0;
-    margin-bottom: -1px;
+    display: flex;
+    flex-wrap: wrap; /* Allows buttons to wrap if space is limited */
+    align-items: center; /* Vertically centers the buttons within the toolbar */
+    padding: 5px; /* Adjust padding as needed */
 }
+
+/* Optional: Adjust spacing between button groups */
+.ql-toolbar .ql-formats {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between buttons */
+}
+
 
 /* --- Adjust QuillJS Toolbar Button Sizes --- */
 .ql-toolbar .ql-formats button {
-    /* Increase padding for larger clickable area */
-    padding: 3px 6px;
+    /* Set consistent padding */
+    padding: 4px 8px; /* Adjust as needed */
     
-    /* Increase font size for better visibility */
-    font-size: 14px;
+    /* Set consistent font size */
+    font-size: 14px; /* Adjust as needed */
     
-    /* Optional: Adjust icon size if necessary */
+    /* Set a fixed height to ensure uniformity */
+    height: 32px; /* Example height */
+    
+    /* Use flex to center content vertically and horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Ensure box-sizing includes padding and border */
+    box-sizing: border-box;
+    
+    /* Optional: Add border for better visibility */
+    border: 1px solid transparent;
+    
+    /* Transition for smooth hover effect */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ql-toolbar .ql-formats button svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;  /* Adjusted size */
+    height: 16px; /* Adjusted size */
 }
 
-/* Optional: Adjust hover effects to match new size */
-.ql-toolbar button:hover {
-    background-color: #e0e0e0;
+/* --- Hover State --- */
+.ql-toolbar .ql-formats button:hover {
+    background-color: #e0e0e0; /* Maintain hover feedback */
+    border-color: #b0b0b0; /* Optional: Add a subtle border on hover */
 }
 
-/* Optional: Adjust active state styling */
-.ql-toolbar button.ql-active {
-    background-color: #d0d0d0;
+/* --- Active State --- */
+.ql-toolbar .ql-formats button.ql-active {
+    background-color: #d0d0d0; /* Maintain active state feedback */
+    border-color: #a0a0a0; /* Optional: Add a subtle border when active */
 }
+
 
 .answers-button-container {
     display: flex;
