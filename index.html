@@ -47,7 +47,24 @@
         <!-- Quill Editor (Moved to visible section) -->
         <div id="answers-editor-container">
             <h3>Deine Antworten:</h3>
-            <div id="answers-answerBox" class="quill-editor"></div>
+            <div id="answers-answerBox" class="quill-editor">
+                <!-- Quill Toolbar -->
+                <div class="ql-toolbar ql-snow">
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-clean"></button>
+                    </span>
+                </div>
+                <div class="ql-editor"></div>
+            </div>
         </div>
 
         <!-- Button Container -->
