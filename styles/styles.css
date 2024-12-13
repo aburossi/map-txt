@@ -186,16 +186,26 @@ h1, h2, h3 {
     color: #666; /* Dark gray for icons */
 }
 
-/* --- Ensure SVG Icons Inherit Button Color --- */
+/* --- Ensure SVG Icons in Quill Toolbar Buttons Have a Visible Color --- */
 .ql-toolbar .ql-formats button svg {
-    width: 16px;  /* Adjusted size */
-    height: 16px; /* Adjusted size */
-    fill: #000; /* Inherits the button's text color */
+    fill: #000 !important; /* Sets icon color to black */
+    width: 16px;
+    height: 16px;
 }
 
-/* Optionally, set the button color to ensure contrast */
 .ql-toolbar .ql-formats button {
     color: #000 !important; /* Sets button icon color to black */
+}
+
+/* Scoped Quill Styles (Optional) */
+#quill-container .ql-toolbar .ql-formats button svg {
+    fill: #000 !important;
+    width: 16px;
+    height: 16px;
+}
+
+#quill-container .ql-toolbar .ql-formats button {
+    color: #000 !important;
 }
 
 /* --- Hover State --- */
