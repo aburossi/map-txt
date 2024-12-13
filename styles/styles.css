@@ -1,5 +1,5 @@
 /* Reset some basic styles */
-* {
+body, h1, h2, h3, p, div, button, input, canvas, label {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -28,24 +28,6 @@ h1, h2, h3 {
     font-weight: bold;
     color: #2c3e50;
 }
-
-/* Remove individual title styles */
-/*
-#mindmap-title {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-#answers-assignmentInfo {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-*/
 
 /* --- Mindmap Generator Styles --- */
 #mindmap-container {
@@ -158,17 +140,21 @@ h1, h2, h3 {
     flex-wrap: wrap; /* Allows buttons to wrap if space is limited */
     align-items: center; /* Vertically centers the buttons within the toolbar */
     padding: 5px; /* Adjust padding as needed */
+    background-color: #f3f3f3; /* Added background color */
 }
 
-/* Optional: Adjust spacing between button groups */
+/* --- Spacing Between Button Groups --- */
 .ql-toolbar .ql-formats {
     display: flex;
     align-items: center;
     gap: 5px; /* Space between buttons */
+    
+    /* Remove default margin and padding */
+    margin: 0;
+    padding: 0;
 }
 
-
-/* --- Adjust QuillJS Toolbar Button Sizes --- */
+/* --- Adjust QuillJS Toolbar Button Sizes and Alignment --- */
 .ql-toolbar .ql-formats button {
     /* Set consistent padding */
     padding: 4px 8px; /* Adjust as needed */
@@ -187,30 +173,37 @@ h1, h2, h3 {
     /* Ensure box-sizing includes padding and border */
     box-sizing: border-box;
     
-    /* Optional: Add border for better visibility */
+    /* Set default border to prevent layout shift on hover */
     border: 1px solid transparent;
     
     /* Transition for smooth hover effect */
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    
+    /* Remove default margin */
+    margin: 0;
+    
+    /* Set icon color */
+    color: #666; /* Dark gray for icons */
 }
 
+/* --- Ensure SVG Icons Inherit Button Color --- */
 .ql-toolbar .ql-formats button svg {
     width: 16px;  /* Adjusted size */
     height: 16px; /* Adjusted size */
+    fill: currentColor; /* Inherits the button's text color */
 }
 
 /* --- Hover State --- */
 .ql-toolbar .ql-formats button:hover {
-    background-color: #e0e0e0; /* Maintain hover feedback */
-    border-color: #b0b0b0; /* Optional: Add a subtle border on hover */
+    background-color: #e0e0e0; /* Light hover background */
+    border-color: #b0b0b0; /* Subtle border on hover */
 }
 
 /* --- Active State --- */
 .ql-toolbar .ql-formats button.ql-active {
-    background-color: #d0d0d0; /* Maintain active state feedback */
-    border-color: #a0a0a0; /* Optional: Add a subtle border when active */
+    background-color: #d0d0d0; /* Slightly darker active background */
+    border-color: #a0a0a0; /* Subtle border when active */
 }
-
 
 .answers-button-container {
     display: flex;
