@@ -197,7 +197,19 @@ h1, h2, h3 {
     color: #000 !important; /* Sets button icon color to black */
 }
 
-/* Scoped Quill Styles (Optional) */
+/* --- Hover State --- */
+.ql-toolbar .ql-formats button:hover {
+    background-color: #e0e0e0; /* Light hover background */
+    border-color: #b0b0b0; /* Subtle border on hover */
+}
+
+/* --- Active State --- */
+.ql-toolbar .ql-formats button.ql-active {
+    background-color: #d0d0d0; /* Slightly darker active background */
+    border-color: #a0a0a0; /* Subtle border when active */
+}
+
+/* Scoped Quill Styles (If using a unique container) */
 #quill-container .ql-toolbar .ql-formats button svg {
     fill: #000 !important;
     width: 16px;
@@ -208,11 +220,22 @@ h1, h2, h3 {
     color: #000 !important;
 }
 
-/* --- Hover State --- */
-.ql-toolbar .ql-formats button:hover {
-    background-color: #e0e0e0; /* Light hover background */
-    border-color: #b0b0b0; /* Subtle border on hover */
+/* --- Custom Toolbar Container --- */
+#custom-toolbar {
+    margin-bottom: 10px; /* Space between toolbar and editor */
 }
+
+/* Additional Styles to Enhance Visibility */
+#custom-toolbar .ql-formats button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#custom-toolbar .ql-formats button:hover {
+    background-color: #f0f0f0;
+}
+
 
 /* --- Active State --- */
 .ql-toolbar .ql-formats button.ql-active {
