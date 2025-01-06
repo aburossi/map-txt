@@ -420,3 +420,8 @@ h1, h2, h3 {
         justify-content: center;
     }
 }
+
+/* Verstecke den "Alle Antworten drucken / Als PDF speichern" Button */
+#answers-downloadAllBtn {
+    display: none;
+}
