@@ -122,6 +122,8 @@
     function saveCanvas() {
         const dataURL = canvas.toDataURL();
         localStorage.setItem('mindmap', dataURL);
+        // Optional: Trigger an autosave notification
+        showAutosaveNotification();
     }
 
     // Exponiere die saveCanvas Funktion
@@ -327,4 +329,48 @@
         };
         img.src = dataURL;
     });
+
+    /* --- Autosave Feature Implementation --- */
+
+    // Function to show autosave notification
+    function showAutosaveNotification() {
+        let notification = document.getElementById('autosave-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'autosave-notification';
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '10px 20px';
+            notification.style.backgroundColor = '#4CAF50';
+            notification.style.color = '#fff';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s ease';
+            notification.textContent = 'Mindmap autosaved';
+            document.body.appendChild(notification);
+        }
+
+        // Show the notification
+        notification.style.opacity = '1';
+
+        // Hide after 2 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+        }, 2000);
+    }
+
+    // Set up autosave interval (e.g., every 30 seconds)
+    const AUTOSAVE_INTERVAL = 30000; // 30000 milliseconds = 30 seconds
+
+    const autosaveTimer = setInterval(() => {
+        saveCanvas();
+    }, AUTOSAVE_INTERVAL);
+
+    // Optional: Save canvas before the user leaves the page
+    window.addEventListener('beforeunload', () => {
+        saveCanvas();
+    });
+
 })();

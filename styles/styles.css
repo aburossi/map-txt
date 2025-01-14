@@ -468,3 +468,18 @@ h1, h2, h3 {
 #answers-downloadAllBtn {
     display: none;
 }
+
+/* Autosave Notification Styles */
+#autosave-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 10000; /* Ensure it's above other elements */
+}
