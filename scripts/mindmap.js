@@ -8,6 +8,7 @@
     const printBtn = document.getElementById('mindmap-printBtn');
     const mindmapTitle = document.getElementById('mindmap-title');
     const eraserBtn = document.getElementById('mindmap-eraserBtn'); // Eraser Button
+    const fullscreenBtn = document.getElementById('mindmap-fullscreenBtn'); // Fullscreen Button
 
     let drawing = false;
     let currentColor = colorPicker.value;
@@ -159,6 +160,49 @@
             eraserBtn.classList.remove('active');
             canvas.classList.add('source-over');
             canvas.classList.remove('destination-out');
+        }
+    });
+
+    // Event Listener für die Vollbild-Schaltfläche
+    fullscreenBtn.addEventListener('click', () => {
+        const mindmapContainer = document.getElementById('mindmap-container');
+
+        if (!document.fullscreenElement) {
+            // Versuche, den Vollbildmodus zu aktivieren
+            if (mindmapContainer.requestFullscreen) {
+                mindmapContainer.requestFullscreen();
+            } else if (mindmapContainer.webkitRequestFullscreen) { /* Safari */
+                mindmapContainer.webkitRequestFullscreen();
+            } else if (mindmapContainer.msRequestFullscreen) { /* IE11 */
+                mindmapContainer.msRequestFullscreen();
+            }
+        } else {
+            // Vollbildmodus beenden
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+    });
+
+    // Event Listener für den Vollbildmodus-Änderungen
+    document.addEventListener('fullscreenchange', () => {
+        const mindmapContainer = document.getElementById('mindmap-container');
+        const isFullscreen = document.fullscreenElement === mindmapContainer;
+
+        if (isFullscreen) {
+            // Vollbildmodus aktiviert
+            mindmapContainer.classList.add('fullscreen');
+            fullscreenBtn.textContent = 'Vollbild verlassen';
+            fullscreenBtn.classList.add('active');
+        } else {
+            // Vollbildmodus deaktiviert
+            mindmapContainer.classList.remove('fullscreen');
+            fullscreenBtn.textContent = 'Vollbild';
+            fullscreenBtn.classList.remove('active');
         }
     });
 

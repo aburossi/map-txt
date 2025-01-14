@@ -87,6 +87,41 @@ h1, h2, h3 {
     border-color: #999;
 }
 
+/* Spezifische Stile für die Vollbild-Schaltfläche */
+#mindmap-fullscreenBtn {
+    background-color: #4CAF50; /* Grün */
+    color: white;
+}
+
+#mindmap-fullscreenBtn:hover {
+    background-color: #45a049;
+}
+
+/* Vollbild-Schaltfläche aktiv */
+#mindmap-fullscreenBtn.active {
+    background-color: #388E3C;
+    border-color: #2e7d32;
+}
+
+/* Vollbild-Overlay-Stile */
+#mindmap-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    padding: 10px;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+#mindmap-container.fullscreen #mindmap-title {
+    font-size: 32px;
+}
+
 #mindmap-canvas-container {
     width: 100%;
     position: relative;
