@@ -82,6 +82,11 @@ h1, h2, h3 {
     background-color: #e0e0e0;
 }
 
+#mindmap-toolbar button.active {
+    background-color: #dcdcdc;
+    border-color: #999;
+}
+
 #mindmap-canvas-container {
     width: 100%;
     position: relative;
@@ -101,6 +106,11 @@ h1, h2, h3 {
     background-color: #fff;
     touch-action: none;
     border-radius: 4px;
+    cursor: crosshair; /* Standard Cursor */
+}
+
+#mindmap-canvas.destination-out {
+    cursor: not-allowed; /* Cursor im Radiermodus */
 }
 
 /* --- Answers Section Styles --- */
@@ -117,14 +127,6 @@ h1, h2, h3 {
 #answers-editor-container {
     margin-bottom: 20px;
 }
-
-/* Entferne benutzerdefinierte Stile für den Quill-Editor */
-/* .quill-editor {
-    height: 200px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-} */
 
 /* --- Custom Toolbar Styles --- */
 /* Entferne alle benutzerdefinierten Stile für die Quill-Toolbar */
@@ -390,9 +392,11 @@ h1, h2, h3 {
 
 /* --- Vergrößerte Schriftgröße für Quill Toolbar Buttons --- */
 /* Entferne diese Regel, da wir bereits spezifischere Regeln für die Toolbar-Schaltflächen definiert haben */
-/* #toolbar button {
+/*
+#toolbar button {
     font-size: 20px; /* Passe die Größe nach Bedarf an */
-/* } */
+/* }
+*/
 
 /* Responsive Design */
 @media (max-width: 768px) {
