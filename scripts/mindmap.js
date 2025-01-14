@@ -4,6 +4,7 @@
     const ctx = canvas.getContext('2d');
     const colorPicker = document.getElementById('mindmap-colorPicker');
     const lineWidth = document.getElementById('mindmap-lineWidth');
+    const eraserWidth = document.getElementById('mindmap-eraserWidth');
     const clearBtn = document.getElementById('mindmap-clearBtn');
     const printBtn = document.getElementById('mindmap-printBtn');
     const mindmapTitle = document.getElementById('mindmap-title');
@@ -16,7 +17,7 @@
     let lastX = 0;
     let lastY = 0;
     let isEraser = false; // Eraser Mode
-    const eraserLineWidth = 20; // Festgelegte Linienbreite für den Radiergummi
+    let eraserLineWidth = eraserWidth.value; // Dynamisch aus dem Slider
 
     // Funktion zum Abrufen eines URL-Parameters
     function getQueryParam(param) {
@@ -139,6 +140,14 @@
         currentLineWidth = e.target.value;
         if (!isEraser) {
             ctx.lineWidth = currentLineWidth;
+        }
+    });
+
+    // Aktualisiere die Eraser-Linienbreite, wenn der Eraser-Slider sich ändert
+    eraserWidth.addEventListener('input', (e) => {
+        eraserLineWidth = e.target.value;
+        if (isEraser) {
+            ctx.lineWidth = eraserLineWidth;
         }
     });
 
