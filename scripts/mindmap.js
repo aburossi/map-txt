@@ -17,19 +17,19 @@
     let lastX = 0;
     let lastY = 0;
     let isEraser = false; // Eraser Mode
-    let eraserLineWidth = eraserWidth.value; // Dynamisch aus dem Slider
+    let eraserLineWidth = eraserWidth.value; // Dynamically from the Slider
 
-    // Funktion zum Abrufen eines URL-Parameters
+    // Function to get a query parameter by name
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
-    // Funktion zum Extrahieren des Seitentitels aus der Referrer-URL
+    // Function to extract the parent page title from the referrer URL
     function getParentPageTitle() {
         const referrer = document.referrer;
         if (!referrer) {
-            console.warn('Kein Referrer gefunden. Elternseitentitel kann nicht abgerufen werden.');
+            console.warn('No referrer found. Cannot retrieve parent page title.');
             return '';
         }
 
@@ -37,34 +37,34 @@
             const url = new URL(referrer);
             const pathSegments = url.pathname.split('/').filter(segment => segment.length > 0);
 
-            // Finde den Index von 'allgemeinbildung'
+            // Find the index of 'allgemeinbildung'
             const targetSegment = 'allgemeinbildung';
             const targetIndex = pathSegments.indexOf(targetSegment);
 
             if (targetIndex === -1) {
-                console.warn(`Segment '${targetSegment}' wurde im Pfad der Referrer-URL nicht gefunden.`);
+                console.warn(`Segment '${targetSegment}' not found in referrer URL path.`);
                 return '';
             }
 
-            // Extrahiere alle Segmente nach 'allgemeinbildung'
+            // Extract all segments after 'allgemeinbildung'
             const relevantSegments = pathSegments.slice(targetIndex + 1);
 
             if (relevantSegments.length === 0) {
-                console.warn('Keine Pfadsegmente nach dem Zielsegment gefunden.');
+                console.warn('No path segments found after the target segment.');
                 return '';
             }
 
-            // Ersetze '+', '-', '_' durch Leerzeichen und dekodiere URI-Komponenten
+            // Replace '+', '-', '_' with spaces and decode URI components
             const formattedSegments = relevantSegments.map(segment => {
                 return decodeURIComponent(segment.replace(/[-_+]/g, ' ')).replace(/\b\w/g, char => char.toUpperCase());
             });
 
-            // Verbinde die Segmente mit ' - ' als Trennzeichen
+            // Join the segments with ' - ' as a separator
             const formattedTitle = formattedSegments.join(' - ');
 
             return formattedTitle;
         } catch (e) {
-            console.error('Fehler beim Parsen der Referrer-URL:', e);
+            console.error('Error parsing referrer URL:', e);
             return '';
         }
     }
@@ -72,64 +72,95 @@
     const assignmentId = getQueryParam('assignmentId') || 'defaultAssignment';
     const parentTitle = getParentPageTitle();
 
-    // Entferne das Präfix 'assignment', um das Suffix zu erhalten
+    // Remove the 'assignment' prefix to get the suffix
     const assignmentSuffix = assignmentId.replace(/^assignment[_-]?/, '');
 
-    // Setze den dynamischen Titel für die Mindmap
+    // Set the dynamic title for the Mindmap
     mindmapTitle.textContent = assignmentSuffix ? `Mindmap: ${assignmentSuffix}` : 'Mindmap Generator';
 
-    // Initialisiere die Größe der Leinwand
+    // Initialize canvas dimensions and scaling
     function setupCanvas() {
-        // Setze die Leinwandgröße entsprechend dem Container
         const container = document.getElementById('mindmap-canvas-container');
         const containerWidth = container.clientWidth;
-        const aspectRatio = 16 / 9; // Landschaftsformat
-        const canvasWidth = containerWidth;
-        const canvasHeight = containerWidth / aspectRatio;
+        const containerHeight = container.clientHeight;
 
-        // Berücksichtige hohe DPI-Bildschirme
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = canvasWidth * dpr;
-        canvas.height = canvasHeight * dpr;
-        canvas.style.width = `${canvasWidth}px`;
-        canvas.style.height = `${canvasHeight}px`;
+
+        // Set canvas dimensions based on container size and DPR
+        canvas.width = containerWidth * dpr;
+        canvas.height = containerHeight * dpr;
+        canvas.style.width = `${containerWidth}px`;
+        canvas.style.height = `${containerHeight}px`;
+
+        // Reset any existing transforms before scaling
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
 
+        // Initialize drawing settings
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
-        ctx.lineWidth = currentLineWidth;
-        ctx.strokeStyle = currentColor;
-        ctx.globalCompositeOperation = 'source-over'; // Standardmodus
+        ctx.lineWidth = isEraser ? eraserLineWidth : currentLineWidth;
+        ctx.strokeStyle = isEraser ? 'rgba(0,0,0,0)' : currentColor;
+        ctx.globalCompositeOperation = isEraser ? 'destination-out' : 'source-over';
     }
 
     setupCanvas();
 
-    // Lade gespeicherte Leinwand aus localStorage
+    // Function to save the current canvas state as a data URL
+    function saveCanvas() {
+        const dataURL = canvas.toDataURL();
+        localStorage.setItem('mindmap', dataURL);
+        // Trigger an autosave notification
+        showAutosaveNotification();
+    }
+
+    // Expose the saveCanvas function globally if needed
+    window.saveMindmap = saveCanvas;
+
+    // Function to load the saved canvas state from localStorage
     function loadCanvas() {
         const dataURL = localStorage.getItem('mindmap');
         if (dataURL) {
             const img = new Image();
             img.onload = function() {
-                // Leere die Leinwand, bevor das Bild gezeichnet wird
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Clear the canvas before drawing the saved image
+                ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
                 ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
             };
             img.src = dataURL;
         }
     }
 
-    // Speichere die Leinwand in localStorage
-    function saveCanvas() {
-        const dataURL = canvas.toDataURL();
-        localStorage.setItem('mindmap', dataURL);
-        // Optional: Trigger an autosave notification
-        showAutosaveNotification();
+    // Debounce function to limit the rate at which a function can fire.
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
-    // Exponiere die saveCanvas Funktion
-    window.saveMindmap = saveCanvas;
+    // Resize handler with debouncing to prevent excessive redraws
+    const handleResize = debounce(() => {
+        // Save the current canvas state
+        const dataURL = canvas.toDataURL();
 
-    // Aktualisiere die Zeichenfarbe, wenn der Farbwähler sich ändert
+        // Re-setup the canvas with new dimensions
+        setupCanvas();
+
+        // Load the saved canvas state
+        const img = new Image();
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+        };
+        img.src = dataURL;
+    }, 200); // 200ms debounce interval
+
+    // Update drawing color when the color picker changes
     colorPicker.addEventListener('change', (e) => {
         currentColor = e.target.value;
         if (!isEraser) {
@@ -137,7 +168,7 @@
         }
     });
 
-    // Aktualisiere die Linienbreite, wenn der Slider sich ändert
+    // Update line width when the slider changes
     lineWidth.addEventListener('input', (e) => {
         currentLineWidth = e.target.value;
         if (!isEraser) {
@@ -145,7 +176,7 @@
         }
     });
 
-    // Aktualisiere die Eraser-Linienbreite, wenn der Eraser-Slider sich ändert
+    // Update eraser width when the slider changes
     eraserWidth.addEventListener('input', (e) => {
         eraserLineWidth = e.target.value;
         if (isEraser) {
@@ -153,33 +184,33 @@
         }
     });
 
-    // Event Listener für die Radiergummi-Schaltfläche
+    // Event Listener for the Eraser Button
     eraserBtn.addEventListener('click', () => {
         isEraser = !isEraser;
         if (isEraser) {
-            // Aktivieren des Radiermodus
+            // Activate Eraser Mode
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = eraserLineWidth; // Radiergröße festlegen
+            ctx.lineWidth = eraserLineWidth; // Set eraser size
             eraserBtn.classList.add('active');
             canvas.classList.add('destination-out');
             canvas.classList.remove('source-over');
         } else {
-            // Deaktivieren des Radiermodus
+            // Deactivate Eraser Mode
             ctx.globalCompositeOperation = 'source-over';
             ctx.strokeStyle = currentColor;
-            ctx.lineWidth = currentLineWidth; // Zeichenbreite beibehalten
+            ctx.lineWidth = currentLineWidth; // Maintain current line width
             eraserBtn.classList.remove('active');
             canvas.classList.add('source-over');
             canvas.classList.remove('destination-out');
         }
     });
 
-    // Event Listener für die Vollbild-Schaltfläche
+    // Event Listener for the Fullscreen Button
     fullscreenBtn.addEventListener('click', () => {
         const mindmapContainer = document.getElementById('mindmap-container');
 
         if (!document.fullscreenElement) {
-            // Versuche, den Vollbildmodus zu aktivieren
+            // Attempt to enter fullscreen mode
             if (mindmapContainer.requestFullscreen) {
                 mindmapContainer.requestFullscreen();
             } else if (mindmapContainer.webkitRequestFullscreen) { /* Safari */
@@ -188,7 +219,7 @@
                 mindmapContainer.msRequestFullscreen();
             }
         } else {
-            // Vollbildmodus beenden
+            // Exit fullscreen mode
             if (document.exitFullscreen) {
                 document.exitFullscreen();
             } else if (document.webkitExitFullscreen) { /* Safari */
@@ -199,31 +230,35 @@
         }
     });
 
-    // Event Listener für den Vollbildmodus-Änderungen
+    // Event Listener for Fullscreen Changes
     document.addEventListener('fullscreenchange', () => {
         const mindmapContainer = document.getElementById('mindmap-container');
         const isFullscreen = document.fullscreenElement === mindmapContainer;
 
         if (isFullscreen) {
-            // Vollbildmodus aktiviert
+            // Fullscreen mode activated
             mindmapContainer.classList.add('fullscreen');
             fullscreenBtn.textContent = 'Vollbild verlassen';
             fullscreenBtn.classList.add('active');
+            // Trigger a resize to adjust the canvas
+            handleResize();
         } else {
-            // Vollbildmodus deaktiviert
+            // Fullscreen mode deactivated
             mindmapContainer.classList.remove('fullscreen');
             fullscreenBtn.textContent = 'Vollbild';
             fullscreenBtn.classList.remove('active');
+            // Trigger a resize to adjust the canvas
+            handleResize();
         }
     });
 
-    // Start drawing
+    // Start Drawing
     function startDrawing(x, y) {
         drawing = true;
         [lastX, lastY] = [x, y];
     }
 
-    // Draw line
+    // Draw Line
     function drawLine(x, y) {
         if (!drawing) return;
         ctx.beginPath();
@@ -233,7 +268,7 @@
         [lastX, lastY] = [x, y];
     }
 
-    // Stop drawing
+    // Stop Drawing
     function stopDrawing() {
         if (drawing) {
             drawing = false;
@@ -253,7 +288,7 @@
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
 
-    // Touch Events für mobile Geräte
+    // Touch Events for Mobile Devices
     canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const touch = e.touches[0];
@@ -275,9 +310,9 @@
     canvas.addEventListener('touchend', stopDrawing);
     canvas.addEventListener('touchcancel', stopDrawing);
 
-    // Clear Canvas und Modus zurücksetzen
+    // Clear Canvas and Reset Mode
     clearBtn.addEventListener('click', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
         localStorage.removeItem('mindmap');
         if (isEraser) {
             isEraser = false;
@@ -290,7 +325,7 @@
         }
     });
 
-    // Print Canvas als Bild
+    // Print Canvas as Image
     printBtn.addEventListener('click', () => {
         canvas.toBlob(function(blob) {
             const url = URL.createObjectURL(blob);
@@ -299,36 +334,23 @@
                 printWindow.onload = function() {
                     printWindow.focus();
                     printWindow.print();
-                    // Optional: revoke the object URL after printing
+                    // Revoke the object URL after printing
                     printWindow.onafterprint = function() {
                         URL.revokeObjectURL(url);
                         printWindow.close();
                     };
                 };
             } else {
-                alert('Bitte erlaube Pop-ups für diese Webseite, um das Drucken zu ermöglichen.');
+                alert('Please allow pop-ups for this website to enable printing.');
             }
         }, 'image/png');
     });
 
-    // Lade die Leinwand beim Laden der Seite
+    // Load the canvas when the page loads
     window.addEventListener('load', loadCanvas);
 
-    // Behandle Fenstergrößenänderungen, um die Leinwandgröße beizubehalten
-    window.addEventListener('resize', () => {
-        // Speichere die aktuelle Leinwand
-        const dataURL = canvas.toDataURL();
-
-        // Richten die Leinwand neu ein
-        setupCanvas();
-
-        // Lade die gespeicherte Leinwand
-        const img = new Image();
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
-        };
-        img.src = dataURL;
-    });
+    // Handle window resize to adjust the canvas appropriately
+    window.addEventListener('resize', handleResize);
 
     /* --- Autosave Feature Implementation --- */
 
@@ -368,7 +390,7 @@
         saveCanvas();
     }, AUTOSAVE_INTERVAL);
 
-    // Optional: Save canvas before the user leaves the page
+    // Save canvas before the user leaves the page
     window.addEventListener('beforeunload', () => {
         saveCanvas();
     });
