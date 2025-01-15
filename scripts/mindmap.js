@@ -69,11 +69,13 @@
         }
     }
 
-    const assignmentId = getQueryParam('assignmentId') || 'defaultAssignment';
+    const assignmentIdRaw = getQueryParam('assignmentId') || 'defaultAssignment';
+    // Sanitize assignmentId to create a valid storage key
+    const assignmentId = assignmentIdRaw.replace(/[^a-zA-Z0-9_-]/g, '_');
     const parentTitle = getParentPageTitle();
 
     // Remove the 'assignment' prefix to get the suffix
-    const assignmentSuffix = assignmentId.replace(/^assignment[_-]?/, '');
+    const assignmentSuffix = assignmentIdRaw.replace(/^assignment[_-]?/, '');
 
     // Set the dynamic title for the Mindmap
     mindmapTitle.textContent = assignmentSuffix ? `Mindmap: ${assignmentSuffix}` : 'Mindmap Generator';
@@ -109,7 +111,8 @@
     // Function to save the current canvas state as a data URL
     function saveCanvas() {
         const dataURL = canvas.toDataURL();
-        localStorage.setItem('mindmap', dataURL);
+        // Updated storage key to include assignmentId
+        localStorage.setItem(`mindmap_${assignmentId}`, dataURL);
         // Trigger an autosave notification
         showAutosaveNotification();
     }
@@ -119,7 +122,8 @@
 
     // Function to load the saved canvas state from localStorage
     function loadCanvas() {
-        const dataURL = localStorage.getItem('mindmap');
+        // Updated storage key to include assignmentId
+        const dataURL = localStorage.getItem(`mindmap_${assignmentId}`);
         if (dataURL) {
             const img = new Image();
             img.onload = function() {
@@ -147,17 +151,13 @@
     // Resize handler with debouncing to prevent excessive redraws
     const handleResize = debounce(() => {
         // Save the current canvas state
-        const dataURL = canvas.toDataURL();
+        saveCanvas();
 
         // Re-setup the canvas with new dimensions
         setupCanvas();
 
         // Load the saved canvas state
-        const img = new Image();
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
-        };
-        img.src = dataURL;
+        loadCanvas();
     }, 200); // 200ms debounce interval
 
     // Update drawing color when the color picker changes
@@ -313,7 +313,8 @@
     // Clear Canvas and Reset Mode
     clearBtn.addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
-        localStorage.removeItem('mindmap');
+        // Remove the specific mindmap from localStorage
+        localStorage.removeItem(`mindmap_${assignmentId}`);
         if (isEraser) {
             isEraser = false;
             ctx.globalCompositeOperation = 'source-over';
